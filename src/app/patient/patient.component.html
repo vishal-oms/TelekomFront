@@ -1,0 +1,75 @@
+<div class="container" style="text-align:center;">
+    <h2>Patient Registration</h2>
+  </div>
+  <div class="container">
+    <form novalidate [formGroup]="myform" (ngSubmit)="onSubmit(myform.value)">
+  
+      <div class="form-group row">
+        <div class="col-sm">
+          <input type="hidden" class="form-control" formControlName="PatientID">
+          <label>First Name</label>
+          <input type="text" class="form-control" formControlName="firstName" appOnlyAlphabet>
+        </div>
+        <div class="col-sm">
+          <label>Last Name</label>
+          <input type="text" class="form-control" formControlName="lastName" appOnlyAlphabet>
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <div class="col-sm">
+          <label>Gender</label>
+          <select class="form-control" formControlName="gender">
+            <option value="-1" selected>Gender</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+          </select>
+        </div>
+        <div class="col-sm">
+          <label>DOB</label>
+          <input id="DOB" type="date" class="form-control" formControlName="DOB">
+          <div *ngIf="DOB.invalid && DOB.dirty" class="has-error">
+            DOB cannot be greater than today’s date.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <div class="col-sm">
+          <label>State</label>
+          <select class="form-control" formControlName="State" (change)="changeState($event)">
+            <option value="-1">Please select a State</option>
+            <option *ngFor="let State of States" [value]="State.id">{{State.name}}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm">
+          <label>City</label>
+          <select class="form-control" formControlName="City">
+            <option value="-1">Please select a City</option>
+            <option *ngFor="let City of Cities" [value]="City.id">{{City.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+         <!--  <pre>{{myform.value | json}}</pre>
+      <pre>{{myform.valid | json}}</pre>
+   -->
+      <div class="row">
+        <div class="col-sm">
+          <button class="btn btn-primary mb-3" (click)="fetchPatient()">Fetch</button>
+        </div>
+        <div class="col-sm">
+          <button type="submit" class="btn btn-primary" [disabled]="!myform.valid">Submit</button>
+        </div>
+      </div>
+  
+    </form>
+    <br />
+  </div>
+  <div class="container">
+    <ag-grid-angular style="width: 1220px; height: 300px;border: 1px lightgray solid;" class="ag-theme-alpine"
+      [rowData]="rowData" [columnDefs]="columnDefs" #agGrid rowSelection="multiple">
+    </ag-grid-angular>
+    <br />
+  </div>
